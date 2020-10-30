@@ -18,7 +18,7 @@ License
 
 Copyright &copy; 2020, NVIDIA Corporation. All rights reserved.
 
-This work is made available under the [NVIDIA Source Code License](LICENSE.txt).
+This work is made available under the [NVIDIA Source Code License](https://nvlabs.github.io/layerdenoise/license.html).
 
 Citation
 --------
