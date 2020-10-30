@@ -30,7 +30,7 @@ Citation
   journal = {Computer Graphics Forum},
   volume = {39},
   number = {4},
-  pages = {1-12},
+  pages = {1--12},
   year = {2020}
 }
 ```
@@ -71,8 +71,8 @@ Usage
 
 Open a command line with PyTorch support (typically, on Windows: `activate pytorch` to activate an environment in Anaconda).
 
-Download training data from https://drive.google.com/drive/folders/1nh7awGg9SyXcdenFUt4aw5vQxyS0dSCw?usp=sharing
-and place it in the `./data/` folder.
+Download example training data from https://drive.google.com/drive/folders/1nh7awGg9SyXcdenFUt4aw5vQxyS0dSCw?usp=sharing
+and place it in the `./data/` folder. Note that this is a small example set, not the full set used in the paper.
 
 Training: `python train.py --job myjob --config cfg.py --network Layer`
 
