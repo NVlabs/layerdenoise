@@ -86,7 +86,7 @@ class SampleDataset(torch.utils.data.Dataset):
 			cw, ch = self.cropSize, self.cropSize
 			sw, sh = max(0, self.resolution[1] - cw), max(0, self.resolution[0] - ch)
 			if self.randomCrop:
-				ow, oh = np.random.randint(0, sw + 1), np.random.randint(0, sh + 1)
+				ow, oh = torch.randint(0, sw + 1, (1,)).item(), torch.randint(0, sh + 1, (1,)).item()
 
 		h5py_file     = h5py.File(self.filename, 'r')
 		h5py_file_ref = h5py.File(self.filename_ref, 'r')
