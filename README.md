@@ -13,8 +13,7 @@ networks adapted from the paper:
 *Sample-based Monte Carlo Denoising using a Kernel-Splatting Network*   
 https://groups.csail.mit.edu/graphics/rendernet/   
  
-For business inquiries, please contact researchinquiries@nvidia.com   
-For press and other inquiries, please contact Hector Marinez at hmarinez@nvidia.com   
+For business inquiries, please visit our website and submit the form: [NVIDIA Research Licensing](https://www.nvidia.com/en-us/research/inquiries/)   
 
 License
 -------
