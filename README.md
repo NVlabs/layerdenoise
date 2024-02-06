@@ -73,7 +73,7 @@ Usage
 
 Open a command line with PyTorch support (typically, on Windows: `activate pytorch` to activate an environment in Anaconda).
 
-Download example training data from https://drive.google.com/drive/folders/1nh7awGg9SyXcdenFUt4aw5vQxyS0dSCw?usp=sharing
+Download example training data, `valsetegsr16k.zip` and `indoorC.zip` from https://github.com/NVlabs/layerdenoise/releases/tag/release_1
 and place it in the `./data/` folder. Note that this is a small example set, not the full set used in the paper.
 
 Training: `python train.py --job myjob --config cfg.py --network Layer`
@@ -100,7 +100,7 @@ Output format from inference run:
 Run a pretrained model
 ----------------------
 
-Download the pretrained weights `model_0700.tar` from https://drive.google.com/drive/folders/1nh7awGg9SyXcdenFUt4aw5vQxyS0dSCw?usp=sharing
+Download the pretrained weights `model_0700.tar` from https://github.com/NVlabs/layerdenoise/releases/tag/release_1
 and the testset `valsetegsr16k_*.h5` from the same location.
 
 Place the weights in 
@@ -121,7 +121,7 @@ Dataset generation
 ------------------
 
 Datasets are generated in hdf5 format. A small example dataset can be downloaded from
-https://drive.google.com/drive/folders/1nh7awGg9SyXcdenFUt4aw5vQxyS0dSCw?usp=sharing
+https://github.com/NVlabs/layerdenoise/releases/tag/release_1
 
 The datasets are 5D tensors on the form: `[frames, samples, channels, height, width]`
 
