@@ -88,6 +88,10 @@ at::Tensor cuda_weighted_filter_forward(at::Tensor input, at::Tensor weight, int
     dim3 size    = dim3(input_shape[2] * input_shape[3], input_shape[1]);  // #pixels, out_channels = in_channels
     dim3 blocks  = compute_blocks(size, threads);
 
+    AT_ASSERTM(input_shape[0] <= INT32_MAX && input_shape[1] <= INT32_MAX && 
+        input_shape[2] <= INT32_MAX && input_shape[3] <= INT32_MAX,
+        "Tensor dimensions exceed int32 range")
+
     // Invoke separate cuda kernel for each batch
     for (int64_t batch = 0; batch < input_shape[0]; ++batch)
     {

@@ -6,8 +6,11 @@
 # distribution of this software and related documentation without an express
 # license agreement from NVIDIA CORPORATION is strictly prohibited.
 
-ARG BASE_IMAGE=nvcr.io/nvidia/pytorch:20.10-py3
+ARG BASE_IMAGE=nvcr.io/nvidia/pytorch:23.10-py3
 FROM $BASE_IMAGE
+
+RUN useradd -m appuser
+USER appuser
 
 # Install torch_utils
 COPY torch_utils /tmp/torch_utils/
