@@ -76,7 +76,7 @@ Open a command line with PyTorch support (typically, on Windows: `activate pytor
 Download example training data, `valsetegsr16k.zip` and `indoorC.zip` from https://github.com/NVlabs/layerdenoise/releases/tag/release_1
 and place it in the `./data/` folder. Note that this is a small example set, not the full set used in the paper.
 
-Training: `python train.py --job myjob --config cfg.py --network Layer`
+Training: `python train.py --job myjob --config cfg.json --network Layer`
 
 The checkpoints are automatically stored in the `models` folder.
 
@@ -88,7 +88,7 @@ Example: For job `test_ccc3e302`
 
 Stop training: `ctrl+c`
 
-Inference: `python train.py --job [jobID] --config cfg.py --inference`. The latest checkpoint from the `models` directory is used.
+Inference: `python train.py --job [jobID] --config cfg.json --inference`. The latest checkpoint from the `models` directory is used.
 The output images are stored in the `./out` directory. Use the switch `--savedir` to specify another folder.
 
 Output format from inference run:
@@ -108,7 +108,7 @@ Place the weights in
 and the dataset in the `./data/` folder.
 
 Run inference with 
-`python train.py --job server --config cfg.py --inference --savedir results --network Layer`
+`python train.py --job server --config cfg.json --inference --savedir results --network Layer`
 
 The folder `results` will be populated with the denoised images (input, denoised and reference images).
 The expected error metrics for this trained network on the set of images in `valsetegsr16k_*.h5` are:

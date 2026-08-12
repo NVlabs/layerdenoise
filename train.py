@@ -10,13 +10,12 @@ import os
 import re
 import sys
 import glob
+import json
 import multiprocessing
 import time
 import argparse
 import uuid
-import importlib
 import logging
-import inspect
 
 import numpy as np
 
@@ -130,7 +129,7 @@ def inference(data):
 
 	ckpt_name = latest_checkpoint(FLAGS.modeldir)
 	print("loading checkpoint %s" % ckpt_name)
-	checkpoint = torch.load(ckpt_name)
+	checkpoint = torch.load(ckpt_name,  weights_only=True)
 	model.load_state_dict(checkpoint['model.state_dict'])
 
 	with open(os.path.join(FLAGS.savedir, 'metrics.txt'), 'w') as fout:
@@ -201,7 +200,7 @@ def train(data_train, data_validation):
 	if FLAGS.resume and os.path.exists(FLAGS.modeldir):
 		ckpt_name = latest_checkpoint(FLAGS.modeldir)
 		print("-> Resuming from checkpoint: %s" % ckpt_name)
-		checkpoint = torch.load(ckpt_name)
+		checkpoint = torch.load(ckpt_name, weights_only=True)
 		start_epoch = checkpoint['epoch']
 		model.load_state_dict(checkpoint['model.state_dict'])
 		optimizer.load_state_dict(checkpoint['optimizer.state_dict'])
@@ -313,17 +312,36 @@ if __name__ == '__main__':
 	parser.add_argument('--num_workers', type=int, default=8, help="Number of workers")
 	parser.add_argument('--spp', type=float, default=8, help='Samples per pixel: 1-8')
 	parser.add_argument('--kernel_size', type=int, default=17, help='Kernel size [17x17]')
-	parser.add_argument('--config', type=str, default=None, help='Config file')
+	parser.add_argument('--config', type=str, default=None, help='JSON config file')
 
 	FLAGS, unparsed = parser.parse_known_args()	
 
-	# Read config file
+	# Read config file (declarative JSON only — no code execution)
+	ALLOWED_CONFIG_KEYS = {
+		"datadir", "valscene", "scenes", "batch", "cropsize",
+		"savedir", "network", "limit", "num_workers", "spp", "kernel_size",
+	}
 	if FLAGS.config is not None:
-		cfg = importlib.import_module(FLAGS.config[:-len('.py')] if FLAGS.config.endswith('.py') else FLAGS.config)
+		config_path = os.path.realpath(FLAGS.config)
+		repo_root = os.path.realpath(os.path.dirname(__file__))
+		try:
+			if os.path.commonpath([config_path, repo_root]) != repo_root:
+				raise SystemExit("Config path must be under %s" % repo_root)
+		except ValueError:
+			raise SystemExit("Config path must be under %s" % repo_root)
+		if not config_path.endswith(".json"):
+			raise SystemExit("Config must be a .json file")
+		if not os.path.isfile(config_path):
+			raise SystemExit("Config file not found: %s" % config_path)
 
-		for key in cfg.__dict__:
-			if not key.startswith("__") and not inspect.ismodule(cfg.__dict__[key]):
-				FLAGS.__dict__[key] = cfg.__dict__[key]
+		with open(config_path, "r", encoding="utf-8") as f:
+			cfg = json.load(f)
+
+		for key, value in cfg.items():
+			if key in ALLOWED_CONFIG_KEYS:
+				FLAGS.__dict__[key] = value
+			else:
+				print("Ignoring unknown config key: %s" % key)
 
 	FLAGS.savedir   = os.path.join(FLAGS.savedir, '')
 	FLAGS.validate  = True
